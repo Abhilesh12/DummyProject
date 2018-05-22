@@ -1,0 +1,8 @@
+.navbar {
+  background-color:green;
+  margin-bottom: 0px;
+}
+#bacgroundImage{
+  background-image: url(/assets/images/back.jpg);
+  height: 670px;
+}

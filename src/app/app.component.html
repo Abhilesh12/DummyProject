@@ -1,20 +1,107 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
 
+<div *ngIf="maindiv"><!--start for main div-->
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#" style="color: black">Dummy Project</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li [class.active] style="color: black"><a href="#"  style="color: black">Home</a></li>
+      <li [class.active]><a routerLink="''" class="pull-right" style="color: black;cursor: pointer" (click)="clearLocal()">LogOut</a></li>
+      <!--<li><a href="#">Page 2</a></li>-->
+      <!--<li><a href="#">Page 3</a></li>-->
+    </ul>
+  </div>
+</nav>
+<!-- start for fill the form-->
+  <div id="bacgroundImage">
+<div class="container-fluid" [hidden]="mainForm">
+  <br/>
+  <div class="row">
+    <div class="well col-md-offset-3 col-md-6 form-group">
+      <form [formGroup]="registrationForm" (ngSubmit)="submitQuestion()">
+        <label for="">Name<span style="color: red">*</span></label>
+        <div class="row">
+          <div class="col-md-3">
+            <input type="text" name="name" formControlName="name">
+          </div>
+        </div><br/>
+        <label for="">Gender<span style="color: red">*</span></label>
+        <div class="row">
+          <div class="col-md-2">
+            <input type="radio" name="option"  formControlName="option" value="male">Male
+          </div>
+          <div class="col-md-2">
+            <input type="radio" name="option"  formControlName="option" value="female">Female
+          </div>
+        </div><br/>
+        <label for="">Address<span style="color: red">*</span></label>
+        <div class="row">
+          <div class="col-md-6">
+            <input type="text" name="address" formControlName="address">
+          </div>
+        </div><br/>
+        <label for="">Phone Number<span style="color: red">*</span></label>
+        <div class="row">
+          <div class="col-md-6">
+            <input type="text"name="phonenumber" formControlName="phonenumber" minlength="7" maxlength="14" (keypress)="keyPress($event)">
+          </div>
+        </div><br/>
+        <button type="button" [disabled]="registrationForm.invalid" class="btn btn-success" (click)="registerData(registrationForm.value)">Register</button>
+      </form>
+    </div>
+  </div>
+</div><!-- end for fill the form-->
+
+<!-- start for asking do you want to see data or again fill the form-->
+<div class="container-fluid" *ngIf="showClickButton">
+  <div class="row">
+    <h5 style="color: green;margin-top: 100px"class="text-center">Congratulations You have Successfully Registered !!</h5>
+  </div>
+  <div class="row">
+    <h5 style="color: green" class="text-center">Click below to See the registered UserList !!</h5>
+  </div>
+  <div class="row">
+    <button type="button" class="btn btn-success" style="margin-left: 600px" (click)="getUserdata()">Click</button>
+  </div>
+  <p style="margin-left: 600px">OR</p>
+  <div class="row">
+    <button type="button" class="btn btn-success" style="margin-left: 600px" (click)="showForm()">Cancel</button>
+  </div>
+</div><!-- end for asking do you want to see data or again fill the form-->
+
+<!-- start to show for user Details data-->
+<div class="container" *ngIf="showUserData">
+  <!--<div class="nav navbar-nav navbar-right" style="margin-right: 6px; border: #2a8884;margin-bottom: -15px;margin-top: -43px;">-->
+    <!--<label >Search</label>-->
+    <!--<input type="text"  id="inputName" placeholder="search question.." [(ngModel)]="inputName"/>-->
+    <!--<input type="button" style="background-color: #8a97a0" value="Apply"/>-->
+  <!--</div>-->
+  <input type="text" style="margin-top: 10px;height: 30px;width: 250px;" class="form-control" placeholder="Search" [(ngModel)]="inputName">
+
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Phone Number</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of registeredData | filter :inputName;let i=index;">
+      <td>{{data.Name }}</td>
+      <td>{{data.Address}}</td>
+      <td>{{data.Number}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <button type="button" class="btn btn-succes" (click)="openMainForm()">Back</button>
+</div><!-- end to show for user Details data-->
+  </div>
+</div><!--end for main div-->
+
+
+<div class="container-fluid" *ngIf="logoutdone">
+  <h4 style="color: green;margin-top: 200px" class="text-center">You have Successfully Log Out !!</h4>
+</div>
